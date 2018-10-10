@@ -229,6 +229,249 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/10/post/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LiYang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/selfie.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/10/post/" itemprop="url">post</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-10T21:15:01+08:00">
+                2018-10-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/10/Myclippings/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LiYang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/selfie.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/10/Myclippings/" itemprop="url">未命名</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-10T21:11:09+08:00">
+                2018-10-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>#Python一键导出kindle中My Clippings.txt中的笔记</p>
+<p>##1.文档形式<br>“我的剪贴”是 Kindle 中很方便的一个功能，在阅读文章的看到感兴趣或重要的内容，用手指按住轻轻一划，就可以把想要标注的内容以高亮的形式显示，还能对所标注的内容添加注释等操作，与此同时 Kindle 会把你标注的内容记录在 Kindle 驱动器中文件夹“documents”里名叫“My Clippings.txt”的文本文档里，不过遗憾的是，目前这个“我的剪贴”只是一个极其简单的txt格式文件，只是以简单文本形式记录了你所标注内容所在的电子书名字、位置、日期、时间，每次剪贴内容都会用“＝＝＝＝＝＝＝＝＝＝＝＝＝”间隔，很粗暴，很没人性。这样的笔记恐怕很难阅读吧<img src="https://i.imgur.com/CuABRVy.jpg" alt=""><br>即然这样，我们能不能用python对文字做简要的处理呢，答案是肯定的，接下来我们就用Python对笔记做一下简要处理吧</p>
+<p>##2.Python提取关键内容<br>废话不多说，直接上代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'./My Clippings.txt'</span>, <span class="string">'rb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    llist = f.readlines()      </span><br><span class="line">ow = open(<span class="string">'out.txt'</span>, <span class="string">'w'</span>)</span><br><span class="line">ow.write(str(llist[<span class="number">0</span>],encoding=<span class="string">'gbk'</span>))</span><br><span class="line">i=<span class="number">1</span></span><br><span class="line">                    </span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(llist)):</span><br><span class="line">    <span class="keyword">if</span> llist[i]==llist[<span class="number">0</span>]:</span><br><span class="line">        llist[<span class="number">0</span>]=llist[i]</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    <span class="keyword">if</span> llist[i][<span class="number">0</span>:<span class="number">1</span>]!=<span class="string">b'-'</span> <span class="keyword">and</span> llist[i][<span class="number">0</span>:<span class="number">1</span>]!=<span class="string">b'='</span> <span class="keyword">and</span> llist[i][<span class="number">0</span>:<span class="number">1</span>]!=<span class="string">b'\r'</span>:  </span><br><span class="line">        ow.write(str(llist[i],encoding=<span class="string">'gbk'</span>))</span><br><span class="line">    <span class="keyword">if</span> llist[i][<span class="number">0</span>:<span class="number">1</span>]==<span class="string">b'='</span> <span class="keyword">and</span> i+<span class="number">1</span>&lt;len(llist)<span class="number">-1</span>:</span><br><span class="line">        <span class="keyword">if</span> llist[<span class="number">0</span>]!=llist[i+<span class="number">1</span>]:</span><br><span class="line">            ow.write(str(<span class="string">'\n'</span>))</span><br><span class="line">            ow.write(str(llist[i+<span class="number">1</span>],encoding=<span class="string">'gbk'</span>))</span><br><span class="line">            llist[<span class="number">0</span>]=llist[i+<span class="number">1</span>]              </span><br><span class="line">f.close()</span><br><span class="line">ow.close()</span><br></pre></td></tr></table></figure>
+<p>怎么样，简单吧，整理后的效果，还不错<br><img src="https://i.imgur.com/eC9uEpm.jpg" alt=""></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/28/opencv3检测标签ROI/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -396,7 +639,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
