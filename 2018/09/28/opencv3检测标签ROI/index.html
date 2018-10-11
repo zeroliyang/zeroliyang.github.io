@@ -88,7 +88,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.imgur.com/89IzKxe.jpg">
 <meta property="og:image" content="https://i.imgur.com/GtjUYZi.jpg">
-<meta property="og:updated_time" content="2018-09-28T06:40:52.571Z">
+<meta property="og:updated_time" content="2018-10-11T01:43:32.050Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OpenCV3检测标签ROI">
 <meta name="twitter:description" content="OpenCV3检测标签ROI1.轮廓的检测在opencv3中轮廓的提取有自带的函数，这篇博文就是用opencv3中自带的函数cv::findContours()来提取标签中的ROI区域，在下一篇博文中，我会介绍在不用opencv自带函数情况下，提取ROI，现在假设有下图所示的一系列标签，那我们该如何提取出里面的ROI呢？接下来我就用最简单的方法提取下图中的ROI  step1 连续读取图片，并将R">
@@ -149,7 +149,8 @@
 
   <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
-
+<a href="https://github.com/zeroliyang">
+<img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a>
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
@@ -312,7 +313,7 @@
 <li>step2 对灰度图做二值化和边缘检测，</li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">tagRECT</span> </span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">int</span>	left;</span><br><span class="line">	<span class="keyword">int</span>	top;</span><br><span class="line">	<span class="keyword">int</span>	right;</span><br><span class="line">	<span class="keyword">int</span>	bottom;</span><br><span class="line">	<span class="keyword">int</span>	width;</span><br><span class="line">	<span class="keyword">int</span>	height;</span><br><span class="line">&#125; TRECT;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FindLines</span><span class="params">(Mat grayImg, <span class="built_in">vector</span>&lt;TRECT&gt; &amp;LineRect)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Mat threshold_output;</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;Point&gt; &gt; contours;</span><br><span class="line">	<span class="built_in">vector</span>&lt;Vec4i&gt; hierarchy;</span><br><span class="line">	Mat img_dom = grayImg.clone();</span><br><span class="line">	Mat toutput = grayImg.clone();</span><br><span class="line">	Mat element = getStructuringElement(MORPH_RECT, Size(<span class="number">3</span>, <span class="number">3</span>));<span class="comment">//矩形核，</span></span><br><span class="line">	<span class="comment">//dilate(img_dom, toutput, element);</span></span><br><span class="line">	erode(img_dom, threshold_output, element);<span class="comment">//图像腐蚀，注意是黑色腐蚀白色</span></span><br><span class="line">	threshold(threshold_output, threshold_output, <span class="number">240</span>, <span class="number">255</span>, THRESH_BINARY);<span class="comment">//二值化灰度图</span></span><br><span class="line">	findContours(threshold_output, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, Point(<span class="number">0</span>, <span class="number">0</span>));<span class="comment">//用opencv自带函数检测边界						//</span></span><br><span class="line">	<span class="built_in">vector</span>&lt;Rect&gt; boundRect(contours.size());</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; contours.size(); i++)</span><br><span class="line">	&#123;</span><br><span class="line">		boundRect[i] = boundingRect(Mat(contours[i]));<span class="comment">//保存所有的边界</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">vector</span>&lt;Rect&gt; boundRectGen;</span><br><span class="line">	<span class="keyword">for</span> (<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Rect&gt;::iterator itr = boundRect.begin(); itr != boundRect.end(); itr++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">int</span> rTemp = itr-&gt;height*itr-&gt;width;</span><br><span class="line">		<span class="keyword">if</span> (itr-&gt;height &gt; <span class="number">50</span> &amp;&amp; itr-&gt;width &gt; <span class="number">50</span> &amp;&amp; itr-&gt;height &lt; <span class="number">400</span> &amp;&amp; itr-&gt;width &lt; <span class="number">400</span> &amp;&amp; rTemp&gt;<span class="number">300</span>)<span class="comment">//根据ROI大小设置相应的长宽及面积</span></span><br><span class="line">		&#123;</span><br><span class="line">			boundRectGen.push_back(*itr);<span class="comment">//将检测的结果保存在vector容器里</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//为方便调用，我增加了一个容器LineRect，不仅保存了四个顶点，还保存了长和高，</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Rect&gt;::iterator itr1 = boundRectGen.begin(); itr1 != boundRectGen.end(); itr1++)</span><br><span class="line">	&#123;</span><br><span class="line">		TRECT t_rect;</span><br><span class="line">		t_rect.left = itr1-&gt;x;</span><br><span class="line">		t_rect.top = itr1-&gt;y;</span><br><span class="line">		t_rect.bottom = itr1-&gt;y + itr1-&gt;height;</span><br><span class="line">		t_rect.right = itr1-&gt;x + itr1-&gt;width;</span><br><span class="line">		t_rect.height = itr1-&gt;height;</span><br><span class="line">		t_rect.width = itr1-&gt;width;</span><br><span class="line">		LineRect.push_back(t_rect);</span><br><span class="line">	&#125;</span><br><span class="line">	Scalar color = Scalar(<span class="number">0</span>, <span class="number">0</span>, <span class="number">240</span>);</span><br><span class="line">	<span class="keyword">unsigned</span> temp;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; contours.size(); i++)</span><br><span class="line">	&#123;</span><br><span class="line">		rectangle(grayImg, boundRectGen[i].tl(), boundRectGen[i].br(), color, <span class="number">1</span>, <span class="number">8</span>, <span class="number">0</span>);<span class="comment">//绘制矩形轮廓</span></span><br><span class="line">	&#125;</span><br><span class="line">	namedWindow(<span class="string">"input"</span>, CV_WINDOW_AUTOSIZE);</span><br><span class="line">	imshow(<span class="string">"input"</span>, grayImg);<span class="comment">//显示结果</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>让我们看看检测出的ROI是不是我们需要的吧<br><img src="https://i.imgur.com/GtjUYZi.jpg" alt=""><br>如图红色边框就是我们检测出的区域，因为这只是个粗略的检测，所以，出现了两个框，不过，这和二值化的过程有关，出现这种情况，是二值化过程种的阈值设置的不够好，感兴趣的可以自己试试，</p>
+<h3 id="1-效果展示"><a href="#1-效果展示" class="headerlink" title="1.效果展示"></a>1.效果展示</h3><p>让我们看看检测出的ROI是不是我们需要的吧<br><img src="https://i.imgur.com/GtjUYZi.jpg" alt=""><br>如图红色边框就是我们检测出的区域，因为这只是个粗略的检测，所以，出现了两个框，不过，这和二值化的过程有关，出现这种情况，是二值化过程种的阈值设置的不够好，感兴趣的可以自己试试，</p>
 
       
     </div>
@@ -343,8 +344,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/10/10/Myclippings/" rel="prev" title="">
-                 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/10/10/Myclippings/" rel="prev" title="Python一键导出kindle中My Clippings.txt中的笔记">
+                Python一键导出kindle中My Clippings.txt中的笔记 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -416,7 +417,7 @@
                 alt="LiYang" />
             
               <p class="site-author-name" itemprop="name">LiYang</p>
-              <p class="site-description motion-element" itemprop="description"></p>
+              <p class="site-description motion-element" itemprop="description">生命不息，学习不止！</p>
           </div>
 
           <nav class="site-state motion-element">
@@ -426,14 +427,32 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
             
 
             
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
 
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
             
 
           </nav>
@@ -463,7 +482,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenCV3检测标签ROI"><span class="nav-number">1.</span> <span class="nav-text">OpenCV3检测标签ROI</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-轮廓的检测"><span class="nav-number">1.1.</span> <span class="nav-text">1.轮廓的检测</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenCV3检测标签ROI"><span class="nav-number">1.</span> <span class="nav-text">OpenCV3检测标签ROI</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-轮廓的检测"><span class="nav-number">1.1.</span> <span class="nav-text">1.轮廓的检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-效果展示"><span class="nav-number">1.2.</span> <span class="nav-text">1.效果展示</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -674,6 +693,7 @@
   
 
   
+
 
 </body>
 </html>
